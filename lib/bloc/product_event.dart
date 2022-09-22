@@ -16,3 +16,11 @@ class ProductFiltered extends ProductEvent {
   @override
   List<Object> get props => [category];
 }
+
+class ProductUpdated extends ProductEvent {
+  final Product product;
+  const ProductUpdated({required this.product});
+
+  @override
+  List<Object> get props => [product];
+}

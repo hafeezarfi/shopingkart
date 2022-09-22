@@ -37,6 +37,7 @@ class Product extends Equatable {
         'p_availability': availablity,
         'p_details': details,
         'p_category': category,
+        'quantity': quantity,
       };
   void increaseQuantiy() {
     quantity++;

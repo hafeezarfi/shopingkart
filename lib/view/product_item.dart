@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopingkart/models/models.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/product_bloc.dart';
 
 class ProductItemWidget extends StatefulWidget {
   const ProductItemWidget({super.key, required this.product});
@@ -42,6 +44,9 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                           setState(() {
                             if (widget.product.quantity > 1) {
                               widget.product.decreaseQuantiy();
+                              context
+                                  .read<ProductBloc>()
+                                  .add(ProductUpdated(product: widget.product));
                             }
                           });
                         },
@@ -71,6 +76,9 @@ class _ProductItemWidgetState extends State<ProductItemWidget> {
                         onTap: () {
                           setState(() {
                             widget.product.increaseQuantiy();
+                            context
+                                .read<ProductBloc>()
+                                .add(ProductUpdated(product: widget.product));
                           });
                         },
                         child: const SizedBox(

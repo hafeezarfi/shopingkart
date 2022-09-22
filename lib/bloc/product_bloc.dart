@@ -13,6 +13,39 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc() : super(ProductInitial()) {
     on<ProductFetched>(_onProductFetched);
     on<ProductFiltered>(_onProductFiltered);
+    on<ProductUpdated>(_onProductUpdated);
+  }
+
+  Future<void> _onProductUpdated(
+      ProductUpdated event, Emitter<ProductState> emit) async {
+    try {
+      final products = await _fetchProducts();
+
+      for (Product item in products) {
+        if (item.id == event.product.id) {
+          item.setQuantity(event.product.quantity);
+        }
+      }
+
+      String data = '[';
+      for (Product item in products) {
+        if (products.last == item) {
+          data =
+              '$data{"p_name":${item.name},"p_id":${item.id},"p_cost":${item.cost},"p_availability":${item.availablity},"p_details":${item.details},"p_category":${item.category},"quantity":${item.quantity}}]';
+        } else {
+          data =
+              '$data{"p_name":${item.name},"p_id":${item.id},"p_cost":${item.cost},"p_availability":${item.availablity},"p_details":${item.details},"p_category":${item.category},"quantity":${item.quantity}},';
+        }
+
+        final json = jsonEncode(data);
+
+        return emit(state.copyWith(status: ProductStatus.success));
+      }
+    } catch (_) {
+      emit(state.copyWith(
+        status: ProductStatus.failure,
+      ));
+    }
   }
 
   Future<void> _onProductFetched(
