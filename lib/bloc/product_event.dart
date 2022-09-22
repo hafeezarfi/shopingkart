@@ -9,6 +9,10 @@ abstract class ProductEvent extends Equatable {
 
 class ProductFetched extends ProductEvent {}
 
-class ProductFiltered extends ProductEvent {}
+class ProductFiltered extends ProductEvent {
+  final Category category;
 
-class ProductSubmitted extends ProductEvent {}
+  const ProductFiltered({required this.category});
+  @override
+  List<Object> get props => [category];
+}

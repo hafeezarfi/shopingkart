@@ -10,10 +10,12 @@ class ProductState extends Equatable {
   const ProductState({
     this.status = ProductStatus.initial,
     this.products = const <Product>[],
+    this.filteredProducts = const <Product>[],
   });
 
   final List<Product> products;
   final ProductStatus status;
+  final List<Product> filteredProducts;
 
   @override
   List<Object> get props => [status, products];

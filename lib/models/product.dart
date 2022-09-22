@@ -14,9 +14,9 @@ class Product extends Equatable {
   final int availablity;
   final String details;
   final String category;
-  final int quantity;
+  int quantity;
 
-  const Product({
+  Product({
     required this.id,
     required this.name,
     required this.cost,
@@ -38,4 +38,15 @@ class Product extends Equatable {
         'p_details': details,
         'p_category': category,
       };
+  void increaseQuantiy() {
+    quantity++;
+  }
+
+  void decreaseQuantiy() {
+    quantity--;
+  }
+
+  void setQuantity(int newValue) {
+    quantity = newValue;
+  }
 }

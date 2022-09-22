@@ -12,6 +12,7 @@ part 'product_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc() : super(ProductInitial()) {
     on<ProductFetched>(_onProductFetched);
+    on<ProductFiltered>(_onProductFiltered);
   }
 
   Future<void> _onProductFetched(
@@ -24,6 +25,70 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           state.copyWith(
             status: ProductStatus.success,
             products: products,
+          ),
+        );
+      }
+    } catch (_) {
+      emit(
+        state.copyWith(
+          status: ProductStatus.failure,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onProductFiltered(
+      ProductFiltered event, Emitter<ProductState> emit) async {
+    log('filtering event');
+    try {
+      if (event.category == Category.any) {
+        final products = await _fetchProducts();
+        return emit(
+          state.copyWith(
+            products: products,
+            status: ProductStatus.success,
+          ),
+        );
+      } else if (event.category == Category.premium) {
+        final products = await _fetchProducts();
+        final filteredProducts = <Product>[];
+        for (Product product in products) {
+          if (product.category == 'Premium') {
+            filteredProducts.add(product);
+          }
+        }
+        return emit(
+          state.copyWith(
+            products: filteredProducts,
+            status: ProductStatus.success,
+          ),
+        );
+      } else if (event.category == Category.tamilnadu) {
+        final products = await _fetchProducts();
+        final filteredProducts = <Product>[];
+        for (Product product in products) {
+          if (product.category == 'Tamilnadu') {
+            filteredProducts.add(product);
+          }
+        }
+        return emit(
+          state.copyWith(
+            products: filteredProducts,
+            status: ProductStatus.success,
+          ),
+        );
+      } else {
+        final products = await _fetchProducts();
+        final filteredProducts = <Product>[];
+        for (Product product in products) {
+          if (product.category == 'uncategorized') {
+            filteredProducts.add(product);
+          }
+        }
+        return emit(
+          state.copyWith(
+            products: filteredProducts,
+            status: ProductStatus.success,
           ),
         );
       }

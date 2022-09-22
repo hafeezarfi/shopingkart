@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shopingkart/models/models.dart';
 
-class ProductItemWidget extends StatelessWidget {
+class ProductItemWidget extends StatefulWidget {
   const ProductItemWidget({super.key, required this.product});
   final Product product;
 
+  @override
+  State<ProductItemWidget> createState() => _ProductItemWidgetState();
+}
+
+class _ProductItemWidgetState extends State<ProductItemWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -22,7 +27,7 @@ class ProductItemWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(
-                    'assets/${product.name.toLowerCase()}.png',
+                    'assets/${widget.product.name.toLowerCase()}.png',
                     height: 150,
                     width: 150,
                     fit: BoxFit.fitWidth,
@@ -32,14 +37,23 @@ class ProductItemWidget extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      const SizedBox(
-                        height: 40,
-                        width: 35,
-                        child: Card(
-                            child: Icon(
-                          Icons.remove,
-                          size: 15,
-                        )),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (widget.product.quantity > 1) {
+                              widget.product.decreaseQuantiy();
+                            }
+                          });
+                        },
+                        child: const SizedBox(
+                          height: 40,
+                          width: 35,
+                          child: Card(
+                              child: Icon(
+                            Icons.remove,
+                            size: 15,
+                          )),
+                        ),
                       ),
                       SizedBox(
                         height: 40,
@@ -47,19 +61,26 @@ class ProductItemWidget extends StatelessWidget {
                         child: Card(
                           child: Center(
                             child: Text(
-                              product.quantity.toString(),
+                              widget.product.quantity.toString(),
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 40,
-                        width: 35,
-                        child: Card(
-                          child: Icon(
-                            Icons.add,
-                            size: 15,
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            widget.product.increaseQuantiy();
+                          });
+                        },
+                        child: const SizedBox(
+                          height: 40,
+                          width: 35,
+                          child: Card(
+                            child: Icon(
+                              Icons.add,
+                              size: 15,
+                            ),
                           ),
                         ),
                       )
@@ -75,7 +96,7 @@ class ProductItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product.name,
+                        widget.product.name,
                         style: const TextStyle(
                             fontSize: 30, fontWeight: FontWeight.w400),
                       ),
@@ -83,7 +104,7 @@ class ProductItemWidget extends StatelessWidget {
                         height: 8,
                       ),
                       Text(
-                        '₹${product.cost}',
+                        '₹${widget.product.cost}',
                         style: const TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),
@@ -93,7 +114,7 @@ class ProductItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product.details,
+                        widget.product.details,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
@@ -103,7 +124,7 @@ class ProductItemWidget extends StatelessWidget {
                         height: 4,
                       ),
                       Text(
-                        'Stock: ${product.availablity.toString()}',
+                        'Stock: ${widget.product.availablity.toString()}',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w300,
@@ -113,7 +134,7 @@ class ProductItemWidget extends StatelessWidget {
                         height: 4,
                       ),
                       Text(
-                        product.category,
+                        widget.product.category,
                         style: const TextStyle(fontSize: 20),
                       ),
                     ],

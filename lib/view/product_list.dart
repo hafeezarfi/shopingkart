@@ -78,12 +78,15 @@ class _ProductListState extends State<ProductList> {
                       ),
                     ],
                     onChanged: (value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                      if (value == Category.any) {
+                      if (value == dropdownValue) {
                         return;
                       }
+                      setState(() {
+                        dropdownValue = value!;
+                        context.read<ProductBloc>().add(
+                              ProductFiltered(category: dropdownValue),
+                            );
+                      });
                     },
                     icon: const Icon(Icons.arrow_drop_down),
                   ),
