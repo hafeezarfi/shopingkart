@@ -1,11 +1,11 @@
 [
     {
-    "p_name":"Apple",
-    "p_id":1,
-    "p_cost":30,
-    "p_availability":1,
-    "p_details":"Imported from Swiss",
-    "p_category":"Premium"
+        "p_name":"Apple",
+        "p_id":1,
+        "p_cost":30,
+        "p_availability":1,
+        "p_details":"Imported from Swiss",
+        "p_category":"Premium"
     },
     {
         "p_name":"Mango",
